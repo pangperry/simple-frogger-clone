@@ -44,10 +44,11 @@ Player.prototype.handleInput = function(direction) {
         up: -83,
         down: 83,
     }
-    
-    if (direction && direction === 'right' || direction === 'left') {
+    if ((direction && direction === 'left' && this.x > 0) || 
+        (direction && direction === 'right' && this.x < 400)) {
         this.x += moves[direction];
-    } else if (direction) {
+    } else if ((direction && direction === 'up' && this.y > 0) ||
+        (direction && direction === 'down' && this.y < 390)) { 
         this.y += moves[direction];
     }
 };
