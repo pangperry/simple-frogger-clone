@@ -79,9 +79,10 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
+    
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
@@ -90,36 +91,78 @@ var Engine = (function(global) {
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
         // player.update();
     }
 
+    function checkCollisions() {
+        function isInFirstCol(entity) {
+            return entity.x >= -85 && entity.x <= 78;
+        }
+
+        function isInSecondCol(entity) {
+            return entity.x >= 16 && entity.x <= 174;
+        }
+
+        function isInThirdCol(entity) {
+            return entity.x >= 120 && entity.x <= 275;
+        }
+
+        function isInFourthCol(entity) {
+            return entity.x >= 225 && entity.x <= 380;
+        }
+
+        function isInFifthCol(entity) {
+            return entity.x >= 320 && entity.x <= 484;
+        }
+
+        allEnemies.forEach(function (enemy) {
+            if (player.y === enemy.y) {
+                if (isInFifthCol(player) && isInFifthCol(enemy)) {
+                    window.alert('crash!!');
+                }
+                if (isInFourthCol(player) && isInFourthCol(enemy)) {
+                    window.alert('crash!!');
+                }
+                if (isInThirdCol(player) && isInThirdCol(enemy)) {
+                    window.alert('crash!!');
+                }
+                if (isInSecondCol(player) && isInSecondCol(enemy)) {
+                    window.alert('crash!!');
+                }
+                if (isInFirstCol(player) && isInFirstCol(enemy)) {
+                    alert('crash!!');
+                }
+            }
+        });
+    }
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
+
     function render() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
-                'images/stone-block.png',   // Row 1 of 3 of stone
-                'images/stone-block.png',   // Row 2 of 3 of stone
-                'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
-            ],
+            'images/water-block.png',   // Top row is water
+            'images/stone-block.png',   // Row 1 of 3 of stone
+            'images/stone-block.png',   // Row 2 of 3 of stone
+            'images/stone-block.png',   // Row 3 of 3 of stone
+            'images/grass-block.png',   // Row 1 of 2 of grass
+            'images/grass-block.png'    // Row 2 of 2 of grass
+        ],
             numRows = 6,
             numCols = 5,
             row, col;
-        
+
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -149,7 +192,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
+        allEnemies.forEach(function (enemy) {
             enemy.render();
         });
 
@@ -173,7 +216,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        // 'images/squished-boy.png'
     ]);
     Resources.onReady(init);
 

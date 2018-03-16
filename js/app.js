@@ -9,10 +9,21 @@ Enemy.prototype.update = function(dt) {
     const speedIncrements = {
         fast: 500 * dt,
         normal: 300 * dt,
-        slow: 200 * dt,
+        slow: 10 * dt,
+        not: 0,
     }
 
     this.x += speedIncrements[this.speed]; 
+    if (this.x >= ctx.canvas.width) {
+        this.x = -500;
+        this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
+    }
+    if (this.speed === 'not') {
+        this.x = 202;
+    }
+
+    // console.log("enemy.y", this.y);
+    // console.log("enemy.x", this.x);
 };
 
 Enemy.prototype.render = function() {
@@ -23,7 +34,7 @@ Enemy.prototype.render = function() {
 var Player = function() {
     this.sprite = 'images/char-boy.png';
     this.x = 202;
-    this.y = 5 * 80;
+    this.y = 5 * 83 - 20;
 }
 
 Player.prototype.handleInput = function(direction) {
@@ -39,39 +50,57 @@ Player.prototype.handleInput = function(direction) {
     } else if (direction) {
         this.y += moves[direction];
     }
-
 };
+
+Player.prototype.update = function() {
+    // console.log("Player.x",this.x);
+    // console.log("Player.y", this.y);
+}
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
-
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
 let allEnemies = [];
 
-allEnemies.push(new Enemy(1, 'fast'));
-allEnemies.push(new Enemy(2, 'normal'));
-allEnemies.push(new Enemy(3, 'slow'));
+// allEnemies.push(new Enemy(1, 'fast'));
+// allEnemies.push(new Enemy(2, 'normal'));
+// allEnemies.push(new Enemy(3, 'slow'));
+allEnemies.push(new Enemy(3, 'not'));
+
+// setTimeout(function() {
+    // allEnemies.push(new Enemy(1, 'slow'));
+// }, 1500);
 
 let player = new Player();
-// allEnemies.push(new Enemy('right', 20, null));
 
-
-document.addEventListener('keyup', function(e) {
+function keyHandler(e) {
     var allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
         40: 'down'
     };
-
     player.handleInput(allowedKeys[e.keyCode]);
-});
+}
+
+document.addEventListener('keyup', keyHandler);
+
+
+
+
+// TODO: 
+  //requirements:
+    //Player can not move off screen
+    // Something happens when player wins
+
+    // Vehicle-player collisions happen logically (not too early or too late)
+    // Vehicle-player collision resets the game
+    //must have readme
+    //add comments to my code
+// nice to haves:
+    // Add collectible items on screen
+    // Multiple vehicle types
+    // Timed games
+    // Be creative!
