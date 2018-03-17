@@ -8,8 +8,8 @@ var Enemy = function(row, speed) {
 Enemy.prototype.update = function(dt) {
     const speedIncrements = {
         fast: 500 * dt,
-        normal: 300 * dt,
-        slow: 10 * dt,
+        normal: 350 * dt,
+        slow: 200 * dt,
         not: 0,
     }
 
@@ -62,19 +62,44 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+var Splat = function() {
+    this.sprite = 'images/bloody.png'; 
+    this.x = -1000;
+    this.y = -1000;
+}
 
-let allEnemies = [];
+Splat.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
 // allEnemies.push(new Enemy(1, 'fast'));
 // allEnemies.push(new Enemy(2, 'normal'));
 // allEnemies.push(new Enemy(3, 'slow'));
-allEnemies.push(new Enemy(3, 'not'));
-
 // setTimeout(function() {
     // allEnemies.push(new Enemy(1, 'slow'));
 // }, 1500);
 
-let player = new Player();
+let allEnemies;
+let player;
+let splat;
+
+function setPieces() {
+    splat = new Splat();
+    allEnemies = [];
+    allEnemies.push(new Enemy(2, 'normal'));
+    allEnemies.push(new Enemy(3, 'slow'));
+    player = new Player();
+
+    setTimeout(function() {
+        allEnemies.push(new Enemy(1, 'fast'));
+    }, 500);
+
+    setTimeout(function() {
+        allEnemies.push(new Enemy(1, 'fast'));
+    }, 1000);
+    // allEnemies.push(new Enemy(3, 'not'));
+    document.addEventListener('keyup', keyHandler);
+}
 
 function keyHandler(e) {
     var allowedKeys = {
@@ -86,18 +111,33 @@ function keyHandler(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 }
 
-document.addEventListener('keyup', keyHandler);
+function playSounds() {
+    var crash = document.querySelector("#crash");
+    crash.volume = .1;
+    var yell = document.querySelector("#yell");
+    yell.volume = .1;
+    crash.currentTime = 0;
+    crash.play()
+    setTimeout(function() {
+        yell.currentTime = 0;
+        yell.play();
+    }, 300);
+    // audios.forEach(function(audio) {
+    //     console.log(audio);
+    //     audio.play();
+    // });
+}
+
 
 
 
 
 // TODO: 
   //requirements:
-    //Player can not move off screen
+    // Vehicle-player collision resets the game
     // Something happens when player wins
 
     // Vehicle-player collisions happen logically (not too early or too late)
-    // Vehicle-player collision resets the game
     //must have readme
     //add comments to my code
 // nice to haves:

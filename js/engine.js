@@ -118,22 +118,37 @@ var Engine = (function(global) {
             return entity.x >= 320 && entity.x <= 484;
         }
 
+        function collide() {
+            playSounds();
+            document.removeEventListener('keyup', keyHandler)
+
+            splat.y = player.y - 20;
+            splat.x = player.x - 65;
+            player.x = -1000;
+            player.y = -1000;
+
+            setTimeout(function () {
+                reset();
+            }, 1750);
+        }
+
         allEnemies.forEach(function (enemy) {
             if (player.y === enemy.y) {
                 if (isInFifthCol(player) && isInFifthCol(enemy)) {
-                    window.alert('crash!!');
+                    collide();
                 }
                 if (isInFourthCol(player) && isInFourthCol(enemy)) {
-                    window.alert('crash!!');
+                    collide();
                 }
                 if (isInThirdCol(player) && isInThirdCol(enemy)) {
-                    window.alert('crash!!');
+                    collide();
                 }
                 if (isInSecondCol(player) && isInSecondCol(enemy)) {
-                    window.alert('crash!!');
+                    collide();
                 }
                 if (isInFirstCol(player) && isInFirstCol(enemy)) {
-                    alert('crash!!');
+                    collide();
+
                 }
             }
         });
@@ -192,6 +207,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
+        splat.render();
         allEnemies.forEach(function (enemy) {
             enemy.render();
         });
@@ -204,7 +220,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        // noop
+        setPieces();
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -217,7 +233,7 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        // 'images/squished-boy.png'
+        'images/bloody.png'
     ]);
     Resources.onReady(init);
 
