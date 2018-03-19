@@ -104,8 +104,6 @@ var Engine = (function(global) {
 
     function winsOnce() {
         var triggered = false;
-        // var buttonClasses = document.querySelector('.btn').classList;
-        // buttonClasses.remove('hidden');
         document.removeEventListener('keyup', keyHandler);
 
         return function() {

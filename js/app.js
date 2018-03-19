@@ -1,5 +1,4 @@
 var Enemy = function(row, speed) {
-    // this.sprite = 'images/enemy-bug.png';
     this.sprite = 'images/enemy-bug.png';
     this.y = row * 83 - 20;
     this.x = -101;
@@ -37,8 +36,6 @@ Enemy.prototype.render = function() {
 
 
 var Player = function() {
-    // this.sprite = 'images/firing-cannon.png';
-    // this.sprite = 'images/cannon.png';
     this.sprite = 'images/char-boy.png';
     this.x = 202;
     this.y = 5 * 83 - 20;
@@ -75,9 +72,9 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//image is from  crocodile https://pngtree.com/element/down?id=MzQ3NzI1Mw==&type=1
 
 var WinningCroc = function() {
+    //image is from  crocodile https://pngtree.com/element/down?id=MzQ3NzI1Mw==&type=1
     this.sprite = 'images/crocodile.png';
     this.y = +9999;
     this.x = +9999;
@@ -105,14 +102,6 @@ Splat.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-
-// allEnemies.push(new Enemy(1, 'fast'));
-// allEnemies.push(new Enemy(2, 'normal'));
-// allEnemies.push(new Enemy(3, 'slow'));
-// setTimeout(function() {
-    // allEnemies.push(new Enemy(1, 'slow'));
-// }, 1500);
-
 let allEnemies;
 let player;
 let splat;
@@ -133,7 +122,6 @@ function setPieces() {
     setTimeout(function() {
         allEnemies.push(new Enemy(1, 'fast'));
     }, 1000);
-    // allEnemies.push(new Enemy(3, 'not'));
     document.addEventListener('keyup', keyHandler);
 }
 
