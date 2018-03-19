@@ -75,6 +75,8 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+//image is from  crocodile https://pngtree.com/element/down?id=MzQ3NzI1Mw==&type=1
+
 var WinningCroc = function() {
     this.sprite = 'images/crocodile.png';
     this.y = +9999;
@@ -102,7 +104,6 @@ var Splat = function () {
 Splat.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
 
 
 // allEnemies.push(new Enemy(1, 'fast'));
@@ -146,7 +147,6 @@ function keyHandler(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 }
 
-
 function playSounds() {
     var crash = document.querySelector("#crash");
     crash.volume = .1;
@@ -158,21 +158,11 @@ function playSounds() {
         yell.currentTime = 0;
         yell.play();
     }, 300);
-    // audios.forEach(function(audio) {
-    //     console.log(audio);
-    //     audio.play();
-    // });
 }
-
-
-
 
 
 // TODO: 
   //requirements:
-    //add the alligator like I did with the splat--see notes above
-  
-    // Something happens when player wins
 
     //must have readme
     //add comments to my code

@@ -63,6 +63,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
+        var wins = winsOnce();
         reset();
         lastTime = Date.now();
         main();
@@ -102,6 +103,8 @@ var Engine = (function(global) {
 
     function winsOnce() {
         var triggered = false;
+        // var buttonClasses = document.querySelector('.btn').classList;
+        // buttonClasses.remove('hidden');
         document.removeEventListener('keyup', keyHandler);
 
         return function() {
@@ -114,9 +117,12 @@ var Engine = (function(global) {
                     player.y = +9999;
                     player.x = +9999;
                     triggered = true;
-                }, 250)
+                    var buttonClasses = document.querySelector('.btn').classList;
+                    buttonClasses.remove('hidden');
+                }, 500)
             }
             triggered = true;
+           
         }
     }
 
@@ -245,8 +251,8 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
+        wins = winsOnce();
         setPieces();
-
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -269,6 +275,5 @@ var Engine = (function(global) {
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
-    var wins = winsOnce();
     global.ctx = ctx;
 })(this);

@@ -1,3 +1,17 @@
 body {
     text-align: center;
 }
+
+button {
+    background: #413B3B;
+    color: #fff;
+    font-size: 16px;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
