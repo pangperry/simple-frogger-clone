@@ -110,18 +110,18 @@ let winningCroc;
 function setPieces() {
     splat = new Splat();
     allEnemies = [];
+    allEnemies.push(new Enemy(1, 'normal'));
     allEnemies.push(new Enemy(2, 'normal'));
     allEnemies.push(new Enemy(3, 'slow'));
+    allEnemies.push(new Enemy(4, 'fast'));
     player = new Player();
     winningCroc = new WinningCroc(); 
 
     setTimeout(function() {
         allEnemies.push(new Enemy(1, 'fast'));
-    }, 500);
+        allEnemies.push(new Enemy(4, 'normal'));
+    }, 750);
 
-    setTimeout(function() {
-        allEnemies.push(new Enemy(1, 'fast'));
-    }, 1000);
     document.addEventListener('keyup', keyHandler);
 }
 
