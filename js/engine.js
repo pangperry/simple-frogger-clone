@@ -64,6 +64,7 @@ var Engine = (function(global) {
      */
     function init() {
         var wins = winsOnce();
+        enablePlayAgain(reset);
         reset();
         lastTime = Date.now();
         main();

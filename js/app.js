@@ -160,7 +160,13 @@ function playSounds() {
     }, 300);
 }
 
-
+function enablePlayAgain(reset) {
+    var button = document.querySelector('.btn');
+    button.addEventListener('click', function() {
+        button.classList.add('hidden');
+        reset();
+    });
+}
 // TODO: 
   //requirements:
 
