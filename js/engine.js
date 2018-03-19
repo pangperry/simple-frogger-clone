@@ -80,6 +80,9 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
+        if (player.y < 0) {
+            wins();
+        }
     }
 
     
@@ -94,7 +97,27 @@ var Engine = (function(global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-        // player.update();
+        player.update();
+    }
+
+    function winsOnce() {
+        var triggered = false;
+        document.removeEventListener('keyup', keyHandler);
+
+        return function() {
+
+            if (!triggered) {
+                setTimeout(function () {
+                    winningCroc.roar();
+                    winningCroc.x = player.x;
+                    winningCroc.y = player.y - 60;
+                    player.y = +9999;
+                    player.x = +9999;
+                    triggered = true;
+                }, 250)
+            }
+            triggered = true;
+        }
     }
 
     function checkCollisions() {
@@ -118,14 +141,14 @@ var Engine = (function(global) {
             return entity.x >= 320 && entity.x <= 484;
         }
 
+
         function collide() {
             playSounds();
-            document.removeEventListener('keyup', keyHandler)
 
             splat.y = player.y - 20;
             splat.x = player.x - 65;
-            player.x = -1000;
-            player.y = -1000;
+            player.x = 1000;
+            player.y = 1000;
 
             setTimeout(function () {
                 reset();
@@ -170,7 +193,7 @@ var Engine = (function(global) {
             'images/stone-block.png',   // Row 2 of 3 of stone
             'images/stone-block.png',   // Row 3 of 3 of stone
             'images/grass-block.png',   // Row 1 of 2 of grass
-            'images/grass-block.png'    // Row 2 of 2 of grass
+            'images/grass-block.png',    // Row 2 of 2 of grass
         ],
             numRows = 6,
             numCols = 5,
@@ -208,6 +231,7 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         splat.render();
+        winningCroc.render();
         allEnemies.forEach(function (enemy) {
             enemy.render();
         });
@@ -221,6 +245,7 @@ var Engine = (function(global) {
      */
     function reset() {
         setPieces();
+
     }
 
     /* Go ahead and load all of the images we know we're going to need to
@@ -233,7 +258,9 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-boy.png',
-        'images/bloody.png'
+        'images/bloody.png',
+        'images/enemy-bug-rotate-right.png',
+        'images/crocodile.png'
     ]);
     Resources.onReady(init);
 
@@ -241,5 +268,6 @@ var Engine = (function(global) {
      * object when run in a browser) so that developers can use it more easily
      * from within their app.js files.
      */
+    var wins = winsOnce();
     global.ctx = ctx;
 })(this);

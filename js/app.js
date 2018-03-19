@@ -1,4 +1,5 @@
 var Enemy = function(row, speed) {
+    // this.sprite = 'images/enemy-bug.png';
     this.sprite = 'images/enemy-bug.png';
     this.y = row * 83 - 20;
     this.x = -101;
@@ -6,6 +7,7 @@ var Enemy = function(row, speed) {
 };
 
 Enemy.prototype.update = function(dt) {
+    var roar = player.roar
     const speedIncrements = {
         fast: 500 * dt,
         normal: 350 * dt,
@@ -13,17 +15,20 @@ Enemy.prototype.update = function(dt) {
         not: 0,
     }
 
-    this.x += speedIncrements[this.speed]; 
-    if (this.x >= ctx.canvas.width) {
-        this.x = -500;
-        this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
+    if (player.winner === true) {
+        this.x += 5;
+        this.y += 400 * dt;
+        this.sprite = 'images/enemy-bug-rotate-right.png';
+    }  else {
+        this.x += speedIncrements[this.speed];
+        if (this.x >= ctx.canvas.width) {
+            this.x = -500;
+            this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
+        }
+        if (this.speed === 'not') {
+            this.x = 202;
+        }
     }
-    if (this.speed === 'not') {
-        this.x = 202;
-    }
-
-    // console.log("enemy.y", this.y);
-    // console.log("enemy.x", this.x);
 };
 
 Enemy.prototype.render = function() {
@@ -32,9 +37,12 @@ Enemy.prototype.render = function() {
 
 
 var Player = function() {
+    // this.sprite = 'images/firing-cannon.png';
+    // this.sprite = 'images/cannon.png';
     this.sprite = 'images/char-boy.png';
     this.x = 202;
     this.y = 5 * 83 - 20;
+    this.winner = false;
 }
 
 Player.prototype.handleInput = function(direction) {
@@ -53,24 +61,49 @@ Player.prototype.handleInput = function(direction) {
     }
 };
 
+//
+
 Player.prototype.update = function() {
-    // console.log("Player.x",this.x);
-    // console.log("Player.y", this.y);
+    if (player.y < 0) player.winner = true;
+
+    if (player.winner) {
+        document.removeEventListener('keyup', keyHandler);
+    }
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var Splat = function() {
-    this.sprite = 'images/bloody.png'; 
-    this.x = -1000;
-    this.y = -1000;
+var WinningCroc = function() {
+    this.sprite = 'images/crocodile.png';
+    this.y = +9999;
+    this.x = +9999;
+    this.winTriggered = false;
+}
+
+WinningCroc.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+WinningCroc.prototype.roar = function() {
+    var roar = document.querySelector('#roar');
+    roar.volume = .4;
+    roar.currentTime = 0;
+    roar.play()
+}
+
+var Splat = function () {
+    this.sprite = 'images/bloody.png';
+    this.x = -9999;
+    this.y = -9999;
 }
 
 Splat.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+
 
 // allEnemies.push(new Enemy(1, 'fast'));
 // allEnemies.push(new Enemy(2, 'normal'));
@@ -82,6 +115,7 @@ Splat.prototype.render = function() {
 let allEnemies;
 let player;
 let splat;
+let winningCroc;
 
 function setPieces() {
     splat = new Splat();
@@ -89,6 +123,7 @@ function setPieces() {
     allEnemies.push(new Enemy(2, 'normal'));
     allEnemies.push(new Enemy(3, 'slow'));
     player = new Player();
+    winningCroc = new WinningCroc(); 
 
     setTimeout(function() {
         allEnemies.push(new Enemy(1, 'fast'));
@@ -110,6 +145,7 @@ function keyHandler(e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 }
+
 
 function playSounds() {
     var crash = document.querySelector("#crash");
@@ -134,14 +170,13 @@ function playSounds() {
 
 // TODO: 
   //requirements:
-    // Vehicle-player collision resets the game
+    //add the alligator like I did with the splat--see notes above
+  
     // Something happens when player wins
 
-    // Vehicle-player collisions happen logically (not too early or too late)
     //must have readme
     //add comments to my code
 // nice to haves:
     // Add collectible items on screen
-    // Multiple vehicle types
     // Timed games
     // Be creative!
