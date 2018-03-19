@@ -88,7 +88,7 @@ var Engine = (function(global) {
     }
 
     
-    /* This is called by the update function and loops through all of the
+    /* This is called by the update functon and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
      * player object. These update methods should focus purely on updating
@@ -102,12 +102,13 @@ var Engine = (function(global) {
         player.update();
     }
 
+    //returns a win function that can be triggered only once, allowing it to function
+    //properly when called in continuously in the update function
     function winsOnce() {
         var triggered = false;
         document.removeEventListener('keyup', keyHandler);
 
         return function() {
-
             if (!triggered) {
                 setTimeout(function () {
                     winningCroc.roar();
