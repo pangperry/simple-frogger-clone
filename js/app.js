@@ -1,5 +1,5 @@
 //main enemy and player classes. Instances of each are
-//continuously updated by the enjine file
+//continuously updated by the engine file
 var Enemy = function (row, speed) {
     this.sprite = 'images/enemy-bug.png';
     this.y = row * 83 - 20;
