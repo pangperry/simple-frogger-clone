@@ -112,7 +112,8 @@ var Engine = (function(global) {
             if (!triggered) {
                 setTimeout(function () {
                     winningCroc.roar();
-                    winningCroc.x = player.x;
+                    winningCroc.x = 
+                       player.x > 200 ? player.x - 200 : player.x;
                     winningCroc.y = player.y - 60;
                     player.y = +9999;
                     player.x = +9999;
