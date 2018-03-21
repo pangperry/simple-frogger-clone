@@ -1,0 +1,25 @@
+{
+  "name": "frontend-nanodegree-arcade-game-master",
+  "version": "1.0.0",
+  "description": "This project is a simple clone of the classic arcade game, built as part of Udacity's Front-end Nanodegree, using html, css and plain javascript.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pangperry/simple-frogger-clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pangperry/simple-frogger-clone/issues"
+  },
+  "homepage": "https://github.com/pangperry/simple-frogger-clone#readme",
+  "dependencies": {
+    "eslint": "^4.19.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.9.0"
+  }
+}
