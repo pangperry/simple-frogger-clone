@@ -16,7 +16,7 @@ Enemy.prototype.update = function (dt) {
         not: 0,
     }
 
-    if (player.winner === true) {
+    if (player.winner) {
         this.x += 5;
         this.y += 400 * dt;
         this.sprite = 'images/enemy-bug-rotate-right.png';
@@ -163,7 +163,6 @@ function enablePlayAgain(reset) {
 // TODO: 
 
 // Required: 
-    // 1.if (player.y < 0) player.winner = true;
     // 2. Add instructions on how to play
 // suggestions: 
     //studu
