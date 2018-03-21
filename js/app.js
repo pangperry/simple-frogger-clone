@@ -60,8 +60,8 @@ Player.prototype.handleInput = function (direction) {
 };
 
 Player.prototype.update = function () {
-    if (player.y < 0) player.winner = true;
-    if (player.winner) {
+    if (this.y < 0) this.winner = true;
+    if (this.winner) {
         document.removeEventListener('keyup', keyHandler);
     }
 }
@@ -158,3 +158,12 @@ function enablePlayAgain(reset) {
         reset();
     });
 }
+
+
+// TODO: 
+
+// Required: 
+    // 1.if (player.y < 0) player.winner = true;
+    // 2. Add instructions on how to play
+// suggestions: 
+    //studu
