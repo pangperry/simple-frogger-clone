@@ -56,7 +56,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    }
+    };
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -67,7 +67,7 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
-    }
+    };
 
     /* This function is called by main (our game loop) and itself calls all
      * of the functions which may need to update entity's data. Based on how
@@ -81,7 +81,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-    }
+    };
 
     
     /* This is called by the update functon and loops through all of the
@@ -95,7 +95,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-    }
+    };
 
     function checkCollisions() {
         if (player.crashed) return;
@@ -147,7 +147,7 @@ var Engine = (function(global) {
                 }
             }
         });
-    }
+    };
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -193,7 +193,7 @@ var Engine = (function(global) {
         }
 
         renderEntities();
-    }
+    };
 
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
@@ -209,7 +209,7 @@ var Engine = (function(global) {
         });
 
         player.render();
-    }
+    };
 
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen

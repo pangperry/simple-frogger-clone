@@ -1,8 +1,7 @@
-"use strict";
-//main enemy and player classes. Instances of each are
-//continuously updated by the engine file
+// main enemy and player classes. Instances of each are
+// continuously updated by the engine file
 
-//main character class with render and update methods
+// main character class with render and update methods
 var Character = function(row, speed, image, x = -101) {
     this.sprite = image;
     this.y = row * 83 - 20;
@@ -20,7 +19,7 @@ Character.prototype.update = function (dt) {
         normal: 350 * dt,
         slow: 200 * dt,
         not: 0,
-    }
+    };
 
     player.winner ?
         this.runaway(dt, increments) : this.run(dt, increments);
@@ -67,7 +66,7 @@ Player.prototype.handleInput = function (direction) {
         right: 103,
         up: -83,
         down: 83,
-    }
+    };
     if ((direction && direction === 'left' && this.x > 0) ||
         (direction && direction === 'right' && this.x < 400)) {
         this.x += moves[direction];
@@ -79,7 +78,7 @@ Player.prototype.handleInput = function (direction) {
 };
 
 Player.prototype.wins = function () {
-    document.removeEventListener('keyup', keyHandler);
+    document.removeEventListener('keyup', this.keyHandler);
     var playerctx = this;
 
     setTimeout(function () {
@@ -105,13 +104,23 @@ Player.prototype.roar = function () {
     roar.play()
 };
 
+Player.prototype.keyHandler = function(e) {
+    var allowedKeys = {
+        37: 'left',
+        38: 'up',
+        39: 'right',
+        40: 'down'
+    };
+    player.handleInput(allowedKeys[e.keyCode]);
+}
+
 Player.prototype.crash = function() {
     var crash = document.querySelector("#crash");
     var yell = document.querySelector("#yell");
     this.sprite = 'images/bloody.png';
     this.crashed = true;
 
-    document.removeEventListener('keyup', keyHandler);
+    document.removeEventListener('keyup', this.keyHandler);
     crash.volume = .1;
     yell.volume = .1;
     crash.currentTime = 0;
@@ -141,19 +150,8 @@ function setPieces() {
         allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
     }, 750);
 
-    document.addEventListener('keyup', keyHandler);
+    document.addEventListener('keyup', player.keyHandler);
 };
-
-// key handler function for player movement
-function keyHandler(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
-    player.handleInput(allowedKeys[e.keyCode]);
-}
 
 //enables restart button at end of game
 function enablePlayAgain(reset) {
