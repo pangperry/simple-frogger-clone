@@ -21,7 +21,6 @@ Enemy.prototype.run = function (dt, increments) {
     }
     if (this.speed === 'not') {
         this.x = 202;
-
     }
 }
 
@@ -75,7 +74,8 @@ Player.prototype.wins = function () {
         playerctx.roar();
         playerctx.winner = true;
         playerctx.sprite = 'images/crocodile.png';
-        playerctx.x > 200 ? player.x - 200 : playerctx.x;
+        playerctx.x = 
+            playerctx.x > 200 ? player.x - 300 : playerctx.x;
         playerctx.y = playerctx.y - 60;
         var buttonClasses = document.querySelector('.btn').classList;
         buttonClasses.remove('hidden');
