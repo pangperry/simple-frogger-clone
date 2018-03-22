@@ -7,29 +7,35 @@ var Enemy = function (row, speed) {
     this.speed = speed;
 };
 
+Enemy.prototype.runaway = function (dt, speedIncrements) {
+    this.x += 5;
+    this.y += 400 * dt;
+    this.sprite = 'images/enemy-bug-rotate-right.png';
+}
+
+Enemy.prototype.run = function (dt, increments) {
+    this.x += increments[this.speed];
+    if (this.x >= ctx.canvas.width) {
+        this.x = -500;
+        this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
+    }
+    if (this.speed === 'not') {
+        this.x = 202;
+
+    }
+}
+
 Enemy.prototype.update = function (dt) {
     var roar = player.roar
-    const speedIncrements = {
+    const increments = {
         fast: 500 * dt,
         normal: 350 * dt,
         slow: 200 * dt,
         not: 0,
     }
 
-    if (player.winner) {
-        this.x += 5;
-        this.y += 400 * dt;
-        this.sprite = 'images/enemy-bug-rotate-right.png';
-    } else {
-        this.x += speedIncrements[this.speed];
-        if (this.x >= ctx.canvas.width) {
-            this.x = -500;
-            this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
-        }
-        if (this.speed === 'not') {
-            this.x = 202;
-        }
-    }
+    player.winner ? 
+        this.runaway(dt, increments) : this.run(dt, increments);
 };
 
 Enemy.prototype.render = function () {
@@ -57,34 +63,32 @@ Player.prototype.handleInput = function (direction) {
         (direction && direction === 'down' && this.y < 390)) {
         this.y += moves[direction];
     }
+    if (this.y < 0) this.wins();
 };
 
+Player.prototype.wins = function () {
+    document.removeEventListener('keyup', keyHandler);
+    var playerctx = this;
+
+    setTimeout(function () {
+        playerctx.roar();
+        playerctx.winner = true;
+        playerctx.sprite = 'images/crocodile.png';
+        playerctx.x > 200 ? player.x - 200 : playerctx.x;
+        playerctx.y = playerctx.y - 60;
+        var buttonClasses = document.querySelector('.btn').classList;
+        buttonClasses.remove('hidden');
+    }, 500)
+}
+
 Player.prototype.update = function () {
-    if (this.y < 0) this.winner = true;
-    if (this.winner) {
-        document.removeEventListener('keyup', keyHandler);
-    }
 }
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-//WinningCroc and Splat classes used to replace the player image in collision
-// and win conditions
-var WinningCroc = function () {
-    //image is from  crocodile https://pngtree.com/element/down?id=MzQ3NzI1Mw==&type=1
-    this.sprite = 'images/crocodile.png';
-    this.y = +9999;
-    this.x = +9999;
-    this.winTriggered = false;
-}
-
-WinningCroc.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-WinningCroc.prototype.roar = function () {
+Player.prototype.roar = function () {
     var roar = document.querySelector('#roar');
     roar.volume = .4;
     roar.currentTime = 0;
@@ -115,7 +119,6 @@ function setPieces() {
     allEnemies.push(new Enemy(3, 'slow'));
     allEnemies.push(new Enemy(4, 'fast'));
     player = new Player();
-    winningCroc = new WinningCroc(); 
 
     setTimeout(function() {
         allEnemies.push(new Enemy(1, 'fast'));
@@ -162,7 +165,11 @@ function enablePlayAgain(reset) {
 
 // TODO: 
 
-// Required: 
-    // 2. Add instructions on how to play
 // suggestions: 
-    //studu
+    //change splat and win to be methods on player --- this will require some thinking about triggering a 
+        //  won state
+    //look into simplifying the collision-detection
+    
+    
+    //change sounds to be part of the methods
+    //strict mode??? -maybe not...might just change to es6 + babel?

@@ -63,7 +63,6 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        var wins = winsOnce();
         enablePlayAgain(reset);
         reset();
         lastTime = Date.now();
@@ -82,9 +81,6 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-        if (player.y < 0) {
-            wins();
-        }
     }
 
     
@@ -99,32 +95,6 @@ var Engine = (function(global) {
         allEnemies.forEach(function (enemy) {
             enemy.update(dt);
         });
-        player.update();
-    }
-
-    //returns a win function that can be triggered only once, allowing it to function
-    //properly when called in continuously in the update function
-    function winsOnce() {
-        var triggered = false;
-        document.removeEventListener('keyup', keyHandler);
-
-        return function() {
-            if (!triggered) {
-                setTimeout(function () {
-                    winningCroc.roar();
-                    winningCroc.x = 
-                       player.x > 200 ? player.x - 200 : player.x;
-                    winningCroc.y = player.y - 60;
-                    player.y = +9999;
-                    player.x = +9999;
-                    triggered = true;
-                    var buttonClasses = document.querySelector('.btn').classList;
-                    buttonClasses.remove('hidden');
-                }, 500)
-            }
-            triggered = true;
-           
-        }
     }
 
     function checkCollisions() {
@@ -239,7 +209,6 @@ var Engine = (function(global) {
          * the render function you have defined.
          */
         splat.render();
-        winningCroc.render();
         allEnemies.forEach(function (enemy) {
             enemy.render();
         });
@@ -252,7 +221,6 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        wins = winsOnce();
         setPieces();
     }
 
