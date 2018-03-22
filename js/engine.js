@@ -98,6 +98,7 @@ var Engine = (function(global) {
     }
 
     function checkCollisions() {
+        if (player.crashed) return;
         function isInFirstCol(entity) {
             return entity.x >= -85 && entity.x <= 78;
         }
@@ -121,12 +122,6 @@ var Engine = (function(global) {
 
         function collide() {
             player.crash();
-
-            splat.y = player.y - 20;
-            splat.x = player.x - 65;
-            player.x = 1000;
-            player.y = 1000;
-
             setTimeout(function () {
                 reset();
             }, 1750);
@@ -208,7 +203,7 @@ var Engine = (function(global) {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        splat.render();
+        // splat.render();
         allEnemies.forEach(function (enemy) {
             enemy.render();
         });

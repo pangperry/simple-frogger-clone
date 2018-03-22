@@ -47,6 +47,7 @@ var Player = function () {
     this.x = 202;
     this.y = 5 * 83 - 20;
     this.winner = false;
+    this.crashed = false;
 }
 
 Player.prototype.handleInput = function (direction) {
@@ -97,35 +98,30 @@ Player.prototype.roar = function () {
 
 Player.prototype.crash = function() {
     var crash = document.querySelector("#crash");
-    crash.volume = .1;
     var yell = document.querySelector("#yell");
+    this.sprite = 'images/bloody.png';
+    this.crashed = true;
+
+    document.removeEventListener('keyup', keyHandler);
+    crash.volume = .1;
     yell.volume = .1;
     crash.currentTime = 0;
     crash.play()
+    this.y = this.y - 20;
+    this.x = this.x - 25;
+
     setTimeout(function () {
         yell.currentTime = 0;
         yell.play();
     }, 300);
 }
 
-var Splat = function () {
-    this.sprite = 'images/bloody.png';
-    this.x = -9999;
-    this.y = -9999;
-}
-
-Splat.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
 let allEnemies;
 let player;
-let splat;
-let winningCroc;
 
 //instantiates and sets all classes/pieces
 function setPieces() {
-    splat = new Splat();
+    // splat = new Splat();
     allEnemies = [];
     allEnemies.push(new Enemy(1, 'normal'));
     allEnemies.push(new Enemy(2, 'normal'));
@@ -150,20 +146,6 @@ function keyHandler(e) {
         40: 'down'
     };
     player.handleInput(allowedKeys[e.keyCode]);
-}
-
-//plays sounds for collisions only
-function playSounds() {
-    var crash = document.querySelector("#crash");
-    crash.volume = .1;
-    var yell = document.querySelector("#yell");
-    yell.volume = .1;
-    crash.currentTime = 0;
-    crash.play()
-    setTimeout(function() {
-        yell.currentTime = 0;
-        yell.play();
-    }, 300);
 }
 
 //enables restart button at end of game
