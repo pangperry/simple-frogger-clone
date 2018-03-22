@@ -1,11 +1,36 @@
 //main enemy and player classes. Instances of each are
 //continuously updated by the engine file
-var Enemy = function (row, speed) {
-    this.sprite = 'images/enemy-bug.png';
+
+var Character = function(row, speed, image, x = -101) {
+    this.sprite = image;
     this.y = row * 83 - 20;
-    this.x = -101;
+    this.x = x;
     this.speed = speed;
+}
+
+Character.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
+
+Character.prototype.update = function (dt) {
+    const increments = {
+        fast: 500 * dt,
+        normal: 350 * dt,
+        slow: 200 * dt,
+        not: 0,
+    }
+
+    player.winner ?
+        this.runaway(dt, increments) : this.run(dt, increments);
+};
+
+var Enemy = function(row, speed, image, x) {
+    Character.call(this, row, speed, image, x);
+};
+
+Enemy.prototype = Object.create(Character.prototype);
+
+Enemy.prototype.constructor = Enemy;
 
 Enemy.prototype.runaway = function (dt, speedIncrements) {
     this.x += 5;
@@ -24,30 +49,16 @@ Enemy.prototype.run = function (dt, increments) {
     }
 }
 
-Enemy.prototype.update = function (dt) {
-    var roar = player.roar
-    const increments = {
-        fast: 500 * dt,
-        normal: 350 * dt,
-        slow: 200 * dt,
-        not: 0,
-    }
-
-    player.winner ? 
-        this.runaway(dt, increments) : this.run(dt, increments);
-};
-
-Enemy.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
-
-var Player = function () {
-    this.sprite = 'images/char-boy.png';
+var Player = function(row, speed, image, x) {
+    Character.call(this, row, speed, image, x);
     this.x = 202;
-    this.y = 5 * 83 - 20;
     this.winner = false;
     this.crashed = false;
-}
+}; 
+
+Player.prototype = Object.create(Character.prototype);
+
+Player.prototype.constructor = Player;
 
 Player.prototype.handleInput = function (direction) {
     var moves = {
@@ -121,17 +132,15 @@ let player;
 
 //instantiates and sets all classes/pieces
 function setPieces() {
-    // splat = new Splat();
     allEnemies = [];
-    allEnemies.push(new Enemy(1, 'normal'));
-    allEnemies.push(new Enemy(2, 'normal'));
-    allEnemies.push(new Enemy(3, 'slow'));
-    allEnemies.push(new Enemy(4, 'fast'));
-    player = new Player();
-
+    allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
+    allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
+    allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
+    allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
+    player = new Player(5, null, 'images/char-boy.png', 202);
     setTimeout(function() {
-        allEnemies.push(new Enemy(1, 'fast'));
-        allEnemies.push(new Enemy(4, 'normal'));
+        allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
+        allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
     }, 750);
 
     document.addEventListener('keyup', keyHandler);
