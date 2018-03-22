@@ -1,3 +1,4 @@
+"use strict";
 //main enemy and player classes. Instances of each are
 //continuously updated by the engine file
 
@@ -78,7 +79,7 @@ Player.prototype.handleInput = function (direction) {
 };
 
 Player.prototype.wins = function () {
-    document.removeEventListener('keyup', this.keyHandler);
+    document.removeEventListener('keyup', keyHandler);
     var playerctx = this;
 
     setTimeout(function () {
@@ -92,7 +93,6 @@ Player.prototype.wins = function () {
         buttonClasses.remove('hidden');
     }, 500)
 };
-
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -163,12 +163,3 @@ function enablePlayAgain(reset) {
         reset();
     });
 };
-
-
-// TODO: 
-
-// suggestions: 
-    //change splat and win to be methods on player --- this will require some thinking about triggering a 
-    //look into simplifying the collision-detection
-    
-    //strict mode??? -maybe not...might just change to es6 + babel?
