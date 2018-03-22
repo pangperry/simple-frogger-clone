@@ -1,12 +1,13 @@
 //main enemy and player classes. Instances of each are
 //continuously updated by the engine file
 
+//main character class with render and update methods
 var Character = function(row, speed, image, x = -101) {
     this.sprite = image;
     this.y = row * 83 - 20;
     this.x = x;
     this.speed = speed;
-}
+};
 
 Character.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -24,19 +25,18 @@ Character.prototype.update = function (dt) {
         this.runaway(dt, increments) : this.run(dt, increments);
 };
 
+//enemy subclass
 var Enemy = function(row, speed, image, x) {
     Character.call(this, row, speed, image, x);
 };
 
 Enemy.prototype = Object.create(Character.prototype);
-
 Enemy.prototype.constructor = Enemy;
-
 Enemy.prototype.runaway = function (dt, speedIncrements) {
     this.x += 5;
     this.y += 400 * dt;
     this.sprite = 'images/enemy-bug-rotate-right.png';
-}
+};
 
 Enemy.prototype.run = function (dt, increments) {
     this.x += increments[this.speed];
@@ -47,8 +47,9 @@ Enemy.prototype.run = function (dt, increments) {
     if (this.speed === 'not') {
         this.x = 202;
     }
-}
+};
 
+// player subclass
 var Player = function(row, speed, image, x) {
     Character.call(this, row, speed, image, x);
     this.x = 202;
@@ -57,9 +58,8 @@ var Player = function(row, speed, image, x) {
 }; 
 
 Player.prototype = Object.create(Character.prototype);
-
 Player.prototype.constructor = Player;
-
+Player.prototype.update = function () {};
 Player.prototype.handleInput = function (direction) {
     var moves = {
         left: -103,
@@ -78,7 +78,7 @@ Player.prototype.handleInput = function (direction) {
 };
 
 Player.prototype.wins = function () {
-    document.removeEventListener('keyup', keyHandler);
+    document.removeEventListener('keyup', this.keyHandler);
     var playerctx = this;
 
     setTimeout(function () {
@@ -91,10 +91,8 @@ Player.prototype.wins = function () {
         var buttonClasses = document.querySelector('.btn').classList;
         buttonClasses.remove('hidden');
     }, 500)
-}
+};
 
-Player.prototype.update = function () {
-}
 
 Player.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -105,7 +103,7 @@ Player.prototype.roar = function () {
     roar.volume = .4;
     roar.currentTime = 0;
     roar.play()
-}
+};
 
 Player.prototype.crash = function() {
     var crash = document.querySelector("#crash");
@@ -125,7 +123,7 @@ Player.prototype.crash = function() {
         yell.currentTime = 0;
         yell.play();
     }, 300);
-}
+};
 
 let allEnemies;
 let player;
@@ -144,9 +142,9 @@ function setPieces() {
     }, 750);
 
     document.addEventListener('keyup', keyHandler);
-}
+};
 
-//key handler function for player movement
+// key handler function for player movement
 function keyHandler(e) {
     var allowedKeys = {
         37: 'left',
@@ -164,7 +162,7 @@ function enablePlayAgain(reset) {
         button.classList.add('hidden');
         reset();
     });
-}
+};
 
 
 // TODO: 
