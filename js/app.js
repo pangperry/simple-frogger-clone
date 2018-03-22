@@ -95,6 +95,19 @@ Player.prototype.roar = function () {
     roar.play()
 }
 
+Player.prototype.crash = function() {
+    var crash = document.querySelector("#crash");
+    crash.volume = .1;
+    var yell = document.querySelector("#yell");
+    yell.volume = .1;
+    crash.currentTime = 0;
+    crash.play()
+    setTimeout(function () {
+        yell.currentTime = 0;
+        yell.play();
+    }, 300);
+}
+
 var Splat = function () {
     this.sprite = 'images/bloody.png';
     this.x = -9999;
@@ -167,9 +180,6 @@ function enablePlayAgain(reset) {
 
 // suggestions: 
     //change splat and win to be methods on player --- this will require some thinking about triggering a 
-        //  won state
     //look into simplifying the collision-detection
     
-    
-    //change sounds to be part of the methods
     //strict mode??? -maybe not...might just change to es6 + babel?

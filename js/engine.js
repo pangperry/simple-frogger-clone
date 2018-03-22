@@ -120,7 +120,7 @@ var Engine = (function(global) {
 
 
         function collide() {
-            playSounds();
+            player.crash();
 
             splat.y = player.y - 20;
             splat.x = player.x - 65;
