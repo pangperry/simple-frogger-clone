@@ -187,6 +187,10 @@ var Engine = (function(global) {
             enemy.render();
         });
 
+        allItems.forEach(function (item) {
+            item.render();
+        });
+
         player.render();
     };
 
@@ -210,7 +214,8 @@ var Engine = (function(global) {
         'images/char-boy.png',
         'images/bloody.png',
         'images/enemy-bug-rotate-right.png',
-        'images/crocodile.png'
+        'images/crocodile.png',
+        'images/gem-blue.png'
     ]);
     Resources.onReady(init);
 

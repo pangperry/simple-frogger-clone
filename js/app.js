@@ -90,7 +90,7 @@ Player.prototype.wins = function () {
         playerctx.winner = true;
         playerctx.sprite = 'images/crocodile.png';
         playerctx.x = 
-            playerctx.x > 200 ? player.x - 300 : playerctx.x;
+            playerctx.x > 300 ? player.x - 300 : playerctx.x;
         playerctx.y = playerctx.y - 60;
         var buttonClasses = document.querySelector('.btn').classList;
         buttonClasses.remove('hidden');
@@ -138,16 +138,35 @@ Player.prototype.crash = function() {
     }, 300);
 };
 
+var Item = function(row, image, x, width=71, height=101) { 
+    this.sprite = image;
+    this.y = row * 83 - 20;
+    this.x = x;
+    this.width = width;
+    this.height = height;
+}
+
+Item.prototype.render = function () {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
 let allEnemies;
+let allItems;
 let player;
+// let rounds;
 
 //instantiates and sets all classes/pieces
 function setPieces() {
     allEnemies = [];
+    allItems = [];
+
     allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
+
+    allItems.push(new Item(1, 'images/gem-blue.png', 303));
+
     player = new Player(5, null, 'images/char-boy.png', 202);
     setTimeout(function() {
         allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
@@ -167,6 +186,12 @@ function enablePlayAgain(reset) {
 };
 
 // TODO: 
-//   fix collision detection for players and enemies -- and maybe move this over to a player method
-//   consider improving the game with timer and items + collision with items
+   //render items
+   //make items collide and disappear and add to score...get to 10, win?
+   //rework the game:
+     //getting to water, resets player to start, but maintains the score (from getting items)
+     //if you crash, it's game over, rather than reset
+
+   //refactor setPieces to add more enemies each round, dynamically each round
+   //
 //consider converting all to es6
