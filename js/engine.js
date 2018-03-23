@@ -127,7 +127,8 @@ var Engine = (function(global) {
             if (!player.crashed) {
                 if (isCollision(player, item)) {
                     allItems.splice(index, 1);
-                    allItems.score++;
+                    gems++;
+                    updateStats();
                 }
             }
         });

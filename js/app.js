@@ -1,6 +1,11 @@
+let allEnemies;
+let allItems;
+let player;
+let round = 1;
+let gems = 0;
+
 // main enemy and player classes. Instances of each are
 // continuously updated by the engine file
-
 // main character class with render and update methods
 var Character = function(row, speed, image, x=-101, width=71, height=101) {
     this.sprite = image;
@@ -150,29 +155,26 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-let allEnemies;
-let allItems;
-let player;
 // let rounds;
 
 //instantiates and sets all classes/pieces
 function setPieces() {
     allEnemies = [];
     allItems = [];
-    allItems.score = 0; //ask if this is REALLY to be avoided
+    // allItems.score = 0; //ask if this is REALLY to be avoided
 
     allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
-    allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
+    // allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
 
     allItems.push(new Item(1, 'images/gem-blue.png', 303));
 
     player = new Player(5, null, 'images/char-boy.png', 202);
-    setTimeout(function() {
-        allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
-        allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
-    }, 750);
+    // setTimeout(function() {
+    //     allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
+    //     allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
+    // }, 750);
 
     document.addEventListener('keyup', player.keyHandler);
 };
@@ -186,20 +188,36 @@ function enablePlayAgain(reset) {
     });
 };
 
+function updateStats() {
+    $(".stats").remove();
+    var source = document.getElementById("stats-template").innerHTML;
+    var template = Handlebars.compile(source);
+    var context = {round: round, gems: gems};
+    var html = template(context);
+    $('#stats').append(html);
+}
+
+$(function() {
+    updateStats();
+});
 // TODO: 
+
+   //start with adding handlebars so you can...
+     //add a score and a round to the screen and can see during development 
+
    //rework the game:
-     //will need to add a play again 
      //getting to water, 
-            // resets player to start, 
-            // maintains the score (from getting items), 
-            // adds an enemy to the board
-            // adds a gem, up to three
-            //round 10 might have rocks blokcing the way
+            // resets player to start, not win condition
+            // adds an additional enemy to the board
+            // adds an additional gem to the board
+            // round should be incremented
+            //when rounds = 5, getting to water triggers win condition
+    //
+
+     //will need to add a play again 
 
      //if you crash, it's game over
 
    //refactor setPieces to add more enemies each round, dynamically each round
    //add a title
-   //add handlebars so you can...
-     //add a score and a round to the screen
    //consider converting all to es6
