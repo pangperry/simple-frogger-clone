@@ -2,10 +2,12 @@
 // continuously updated by the engine file
 
 // main character class with render and update methods
-var Character = function(row, speed, image, x = -101) {
+var Character = function(row, speed, image, x=-101, width=71, height=101) {
     this.sprite = image;
     this.y = row * 83 - 20;
     this.x = x;
+    this.width = width;
+    this.height = height - 20;
     this.speed = speed;
 };
 
@@ -26,8 +28,8 @@ Character.prototype.update = function (dt) {
 };
 
 //enemy subclass
-var Enemy = function(row, speed, image, x) {
-    Character.call(this, row, speed, image, x);
+var Enemy = function(row, speed, image, x, width, height) {
+    Character.call(this, row, speed, image, x, width, height);
 };
 
 Enemy.prototype = Object.create(Character.prototype);
@@ -47,11 +49,13 @@ Enemy.prototype.run = function (dt, increments) {
     if (this.speed === 'not') {
         this.x = 202;
     }
+   
+
 };
 
 // player subclass
-var Player = function(row, speed, image, x) {
-    Character.call(this, row, speed, image, x);
+var Player = function(row, speed, image, x, width, height) {
+    Character.call(this, row, speed, image, x, width, height);
     this.x = 202;
     this.winner = false;
     this.crashed = false;
@@ -161,3 +165,8 @@ function enablePlayAgain(reset) {
         reset();
     });
 };
+
+// TODO: 
+//   fix collision detection for players and enemies -- and maybe move this over to a player method
+//   consider improving the game with timer and items + collision with items
+//consider converting all to es6

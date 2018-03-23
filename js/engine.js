@@ -80,7 +80,9 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        checkCollisions();
+        if (!player.crashed) {
+            checkCollisions();
+        }
     };
 
     
@@ -97,57 +99,34 @@ var Engine = (function(global) {
         });
     };
 
+    function isCollision(obj1, obj2) {
+        var result = (obj1.x < obj2.x + obj2.width &&
+            obj1.x + obj1.width > obj2.x &&
+            obj1.y < obj2.y + obj2.height &&
+            obj1.height + obj1.y > obj2.y);
+
+        return result;
+    };
+
+    function collide() {
+        player.crash();
+        setTimeout(function () {
+            reset();
+        }, 1750);
+    }
+
     function checkCollisions() {
-        if (player.crashed) return;
-        function isInFirstCol(entity) {
-            return entity.x >= -85 && entity.x <= 78;
-        }
-
-        function isInSecondCol(entity) {
-            return entity.x >= 16 && entity.x <= 174;
-        }
-
-        function isInThirdCol(entity) {
-            return entity.x >= 120 && entity.x <= 275;
-        }
-
-        function isInFourthCol(entity) {
-            return entity.x >= 225 && entity.x <= 380;
-        }
-
-        function isInFifthCol(entity) {
-            return entity.x >= 320 && entity.x <= 484;
-        }
-
-
-        function collide() {
-            player.crash();
-            setTimeout(function () {
-                reset();
-            }, 1750);
-        }
-
-        allEnemies.forEach(function (enemy) {
-            if (player.y === enemy.y) {
-                if (isInFifthCol(player) && isInFifthCol(enemy)) {
+        allEnemies.forEach(function(enemy) {
+            if (!player.crashed) {
+                if (isCollision(player, enemy)) {
                     collide();
-                }
-                if (isInFourthCol(player) && isInFourthCol(enemy)) {
-                    collide();
-                }
-                if (isInThirdCol(player) && isInThirdCol(enemy)) {
-                    collide();
-                }
-                if (isInSecondCol(player) && isInSecondCol(enemy)) {
-                    collide();
-                }
-                if (isInFirstCol(player) && isInFirstCol(enemy)) {
-                    collide();
-
                 }
             }
         });
-    };
+
+        //now can add other collision functionality
+    }
+
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
