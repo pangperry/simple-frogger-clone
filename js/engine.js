@@ -123,6 +123,14 @@ var Engine = (function(global) {
                 }
             }
         });
+        allItems.forEach(function(item, index) {
+            if (!player.crashed) {
+                if (isCollision(player, item)) {
+                    allItems.splice(index, 1);
+                    allItems.score++;
+                }
+            }
+        });
 
         //now can add other collision functionality
     }

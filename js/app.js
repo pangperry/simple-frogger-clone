@@ -159,6 +159,7 @@ let player;
 function setPieces() {
     allEnemies = [];
     allItems = [];
+    allItems.score = 0; //ask if this is REALLY to be avoided
 
     allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
@@ -186,11 +187,18 @@ function enablePlayAgain(reset) {
 };
 
 // TODO: 
-   //render items
-   //make items collide and disappear and add to score...get to 10, win?
    //rework the game:
-     //getting to water, resets player to start, but maintains the score (from getting items)
-     //if you crash, it's game over, rather than reset
+     //add a score and a round to the screen
+     //add a title
+     //will need to add a play again 
+     //getting to water, 
+            // resets player to start, 
+            // maintains the score (from getting items), 
+            // adds an enemy to the board
+            // adds a gem, up to three
+            //round 10 might have rocks blokcing the way
+
+     //if you crash, it's game over
 
    //refactor setPieces to add more enemies each round, dynamically each round
    //
