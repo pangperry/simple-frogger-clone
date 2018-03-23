@@ -140,7 +140,7 @@ Player.prototype.crash = function() {
 
 var Item = function(row, image, x, width=71, height=101) { 
     this.sprite = image;
-    this.y = row * 83 - 20;
+    this.y = row * 83 - 40;
     this.x = x;
     this.width = width;
     this.height = height;
@@ -188,8 +188,6 @@ function enablePlayAgain(reset) {
 
 // TODO: 
    //rework the game:
-     //add a score and a round to the screen
-     //add a title
      //will need to add a play again 
      //getting to water, 
             // resets player to start, 
@@ -201,5 +199,7 @@ function enablePlayAgain(reset) {
      //if you crash, it's game over
 
    //refactor setPieces to add more enemies each round, dynamically each round
-   //
-//consider converting all to es6
+   //add a title
+   //add handlebars so you can...
+     //add a score and a round to the screen
+   //consider converting all to es6
