@@ -6,6 +6,7 @@ let gems = 0;
 
 // main enemy and player classes. Instances of each are
 // continuously updated by the engine file
+
 // main character class with render and update methods
 var Character = function(row, speed, image, x=-101, width=71, height=101) {
     this.sprite = image;
@@ -54,8 +55,6 @@ Enemy.prototype.run = function (dt, increments) {
     if (this.speed === 'not') {
         this.x = 202;
     }
-   
-
 };
 
 // player subclass
@@ -155,27 +154,20 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// let rounds;
-
 //instantiates and sets all classes/pieces
 function setPieces() {
     allEnemies = [];
     allItems = [];
-    // allItems.score = 0; //ask if this is REALLY to be avoided
-
     allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
     allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
     // allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
-
     allItems.push(new Item(1, 'images/gem-blue.png', 303));
-
     player = new Player(5, null, 'images/char-boy.png', 202);
     // setTimeout(function() {
     //     allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
     //     allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
     // }, 750);
-
     document.addEventListener('keyup', player.keyHandler);
 };
 
