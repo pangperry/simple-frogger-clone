@@ -63,6 +63,7 @@ var Player = function(row, speed, image, x, width, height) {
     this.x = 202;
     this.winner = false;
     this.crashed = false;
+    this.passedRound = false;
 }; 
 
 Player.prototype = Object.create(Character.prototype);
@@ -85,8 +86,31 @@ Player.prototype.handleInput = function (direction) {
     //AND rounds = 5, then this wins, otherwise, increment round and reset
     //will need to pass in round to set pieces and then come up with different game logic
     //for each round
-    if (this.y < 0) this.wins();
+    if (this.y < 0) {
+        if (round === 5) {
+            this.wins();
+        } else {
+            this.nextRound();
+        }
+    }
 };
+
+//pause keyinputs,
+//generate a small win sound 
+// increment round, 
+// resets player to start 
+//reset triggers setpieces and setPieces should now take a round parameter
+//reset should now take a round parameter
+//should add enemies according to round now
+Player.prototype.nextRound = function () {
+    document.removeEventListener('keyup', this.keyHandler);
+
+    playerctx = this;
+    setTimeout(function() {
+        round++;
+        playerctx.passedRound = true;
+    }, 1000);
+}
 
 Player.prototype.wins = function () {
     document.removeEventListener('keyup', this.keyHandler);
@@ -167,12 +191,19 @@ function setPieces(level) {
     var levels = {
         1: function () {
             allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
+            allItems.push(new Item(1, 'images/gem-blue.png', 303))
         },
         2: function () {
+            setTimeout(function () {
+                allEnemies.push(new Enemy(3, 'fast', 'images/enemy-bug.png'));
+                allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));;
+            }, 750)
             allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
+            allItems.push(new Item(3, 'images/gem-blue.png', 101))
         },
         3: function () {
-            allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
+            allEnemies.push(new Enemy(2, 'slow', 'images/enemy-bug.png'));
+            allItems.push(new Item(2, 'images/gem-blue.png', 404))
         },
         4: function () {
             allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));

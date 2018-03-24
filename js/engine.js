@@ -82,6 +82,11 @@ var Engine = (function(global) {
         updateEntities(dt);
         if (!player.crashed) {
             checkCollisions();
+            // checkPassedRound();
+        }
+        if (player.passedRound) {
+            console.log('passed');
+            reset();
         }
     };
 
@@ -132,10 +137,12 @@ var Engine = (function(global) {
                 }
             }
         });
-
         //now can add other collision functionality
     }
 
+    // function checkPassedRound() {
+    //     if (player.checkPassedRound === true) reset();
+    // };
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
@@ -208,7 +215,7 @@ var Engine = (function(global) {
      * those sorts of things. It's only called once by the init() method.
      */
     function reset() {
-        setPieces(5);
+        setPieces(round);
     }
 
     /* Go ahead and load all of the images we know we're going to need to
