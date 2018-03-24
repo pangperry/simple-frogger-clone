@@ -82,6 +82,9 @@ Player.prototype.handleInput = function (direction) {
         (direction && direction === 'down' && this.y < 390)) {
         this.y += moves[direction];
     }
+    //AND rounds = 5, then this wins, otherwise, increment round and reset
+    //will need to pass in round to set pieces and then come up with different game logic
+    //for each round
     if (this.y < 0) this.wins();
 };
 
@@ -154,20 +157,39 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
 //instantiates and sets all classes/pieces
-function setPieces() {
+function setPieces(level) {
     allEnemies = [];
     allItems = [];
-    allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
-    allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
-    allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
-    // allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
-    allItems.push(new Item(1, 'images/gem-blue.png', 303));
     player = new Player(5, null, 'images/char-boy.png', 202);
-    // setTimeout(function() {
-    //     allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
-    //     allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));
-    // }, 750);
+
+    var levels = {
+        1: function () {
+            allEnemies.push(new Enemy(1, 'normal', 'images/enemy-bug.png'));
+        },
+        2: function () {
+            allEnemies.push(new Enemy(4, 'fast', 'images/enemy-bug.png'));
+        },
+        3: function () {
+            allEnemies.push(new Enemy(3, 'slow', 'images/enemy-bug.png'));
+        },
+        4: function () {
+            allEnemies.push(new Enemy(2, 'normal', 'images/enemy-bug.png'));
+        },
+        5: function () {
+            allItems.push(new Item(1, 'images/gem-blue.png', 303))
+            setTimeout(function () {
+                allEnemies.push(new Enemy(1, 'fast', 'images/enemy-bug.png'));
+                allEnemies.push(new Enemy(4, 'normal', 'images/enemy-bug.png'));;
+            }, 750)
+        },
+    };
+
+    for (var i = 1; i <= level; i++) {
+        levels[i]();
+    }
+
     document.addEventListener('keyup', player.keyHandler);
 };
 
@@ -193,23 +215,24 @@ $(function() {
     updateStats();
 });
 // TODO: 
-
-   //start with adding handlebars so you can...
-     //add a score and a round to the screen and can see during development 
-
    //rework the game:
-     //getting to water, 
-            // resets player to start, not win condition
-            // adds an additional enemy to the board
-            // adds an additional gem to the board
-            // round should be incremented
-            //when rounds = 5, getting to water triggers win condition
-    //
+     //getting to water, player.handleInput should: 
+            //trigger this.wins, if round === 5
+                //else
+                    // triggers player.nextRound
+                        //a slimmed version of player.crash
+                        //pause keyinputs,
+                        //generate a small win sound 
+                        // increment round, 
+                        // resets player to start 
+                          //reset triggers setpieces and setPieces should now take a round parameter
+                            //reset should now take a round parameter
+                            //should add enemies according to round now
 
-     //will need to add a play again 
+            //will need to add a play again 
 
-     //if you crash, it's game over
+            //if you crash, it's game over
 
-   //refactor setPieces to add more enemies each round, dynamically each round
-   //add a title
-   //consider converting all to es6
+    // other potential changes:
+        //add a title
+        //consider converting all to es6
