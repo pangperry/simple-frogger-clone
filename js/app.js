@@ -109,6 +109,7 @@ Player.prototype.nextRound = function () {
     playerctx = this;
     setTimeout(function() {
         round++;
+        updateStats();
         playerctx.passedRound = true;
     }, 1000);
 }
@@ -252,17 +253,13 @@ $(function() {
 });
 
 
-// ****round not updating on bottom of page
 // TODO: 
-   //rework the game:
-   //add lives
-     //player instantiates with player.lives = 3
-     //decrements with each player.crash
-
-    //must reset round and score after crash
-      //add a game over modal with player again?
+    //fix round update---it's not happenining on time, every time
+    //add a game over modal with player again?
+      //add game over sound
     //improve victory: winning sound + maybe some fireworks again ;)
 
     // other potential changes:
         //add a title
+        //clean up code
         //consider converting all to es6
