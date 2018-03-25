@@ -63,7 +63,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        enablePlayAgain(reset);
+        enablePlayAgain(reset, 'win');
         reset();
         lastTime = Date.now();
         main();
@@ -84,7 +84,6 @@ var Engine = (function(global) {
             checkCollisions();
             // checkPassedRound();
         }
-
 
         if (player.passedRound) {
             reset();

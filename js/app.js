@@ -84,9 +84,7 @@ Player.prototype.handleInput = function (direction) {
         (direction && direction === 'down' && this.y < 390)) {
         this.y += moves[direction];
     }
-    //AND rounds = 5, then this wins, otherwise, increment round and reset
-    //will need to pass in round to set pieces and then come up with different game logic
-    //for each round
+
     if (this.y < 0) {
         if (round === 5) {
             this.wins();
@@ -96,13 +94,6 @@ Player.prototype.handleInput = function (direction) {
     }
 };
 
-//pause keyinputs,
-//generate a small win sound 
-// increment round, 
-// resets player to start 
-//reset triggers setpieces and setPieces should now take a round parameter
-//reset should now take a round parameter
-//should add enemies according to round now
 Player.prototype.nextRound = function () {
     document.removeEventListener('keyup', this.keyHandler);
 
@@ -170,6 +161,7 @@ Player.prototype.crash = function() {
         yell.play();
     }, 300);
     lives--;
+
     updateStats();
 };
 
@@ -184,9 +176,9 @@ var Item = function(row, image, x, width=71, height=101) {
 Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-//********FINISH GAME END FUNCTIONALITY */
+
 function gameEnd() {
-    alert('game end!!');
+    $('.game-over').removeClass('hidden');
 }
 //instantiates and sets all classes/pieces
 function setPieces(level) {
@@ -254,7 +246,6 @@ $(function() {
 
 
 // TODO: 
-    //fix round update---it's not happenining on time, every time
     //add a game over modal with player again?
       //add game over sound
     //improve victory: winning sound + maybe some fireworks again ;)
