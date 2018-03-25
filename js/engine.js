@@ -84,13 +84,14 @@ var Engine = (function(global) {
             checkCollisions();
             // checkPassedRound();
         }
+
+
         if (player.passedRound) {
-            console.log('passed');
             reset();
         }
+
     };
 
-    
     /* This is called by the update functon and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
@@ -115,9 +116,15 @@ var Engine = (function(global) {
 
     function collide() {
         player.crash();
-        setTimeout(function () {
-            reset();
-        }, 1750);
+        if (lives === 0) {
+            setTimeout(function() {
+                gameEnd();
+            }, 1750);
+        } else {
+            setTimeout(function() {
+                reset();
+            }, 1750);
+        }
     }
 
     function checkCollisions() {

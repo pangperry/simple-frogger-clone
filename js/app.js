@@ -3,6 +3,7 @@ let allItems;
 let player;
 let round = 1;
 let gems = 0;
+let lives = 3;
 
 // main enemy and player classes. Instances of each are
 // continuously updated by the engine file
@@ -167,6 +168,8 @@ Player.prototype.crash = function() {
         yell.currentTime = 0;
         yell.play();
     }, 300);
+    lives--;
+    updateStats();
 };
 
 var Item = function(row, image, x, width=71, height=101) { 
@@ -180,8 +183,10 @@ var Item = function(row, image, x, width=71, height=101) {
 Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-
+//********FINISH GAME END FUNCTIONALITY */
+function gameEnd() {
+    alert('game end!!');
+}
 //instantiates and sets all classes/pieces
 function setPieces(level) {
     allEnemies = [];
@@ -237,7 +242,7 @@ function updateStats() {
     $(".stats").remove();
     var source = document.getElementById("stats-template").innerHTML;
     var template = Handlebars.compile(source);
-    var context = {round: round, gems: gems};
+    var context = {round: round, gems: gems, lives: lives};
     var html = template(context);
     $('#stats').append(html);
 }
@@ -245,24 +250,18 @@ function updateStats() {
 $(function() {
     updateStats();
 });
+
+
+// ****round not updating on bottom of page
 // TODO: 
    //rework the game:
-     //getting to water, player.handleInput should: 
-            //trigger this.wins, if round === 5
-                //else
-                    // triggers player.nextRound
-                        //a slimmed version of player.crash
-                        //pause keyinputs,
-                        //generate a small win sound 
-                        // increment round, 
-                        // resets player to start 
-                          //reset triggers setpieces and setPieces should now take a round parameter
-                            //reset should now take a round parameter
-                            //should add enemies according to round now
+   //add lives
+     //player instantiates with player.lives = 3
+     //decrements with each player.crash
 
-            //will need to add a play again 
-
-            //if you crash, it's game over
+    //must reset round and score after crash
+      //add a game over modal with player again?
+    //improve victory: winning sound + maybe some fireworks again ;)
 
     // other potential changes:
         //add a title
