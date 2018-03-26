@@ -183,7 +183,7 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-function loseGame() {
+function loseGame(reset) {
     var loseGame = $('#lose-sound')[0];
     var gameOver = $('#game-over')[0];
     loseGame.play();

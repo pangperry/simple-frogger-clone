@@ -117,7 +117,7 @@ var Engine = (function(global) {
         player.crash();
         if (lives === 0) {
             setTimeout(function() {
-                loseGame();
+                loseGame(reset);
             }, 1750);
         } else {
             setTimeout(function() {
