@@ -58,16 +58,12 @@ Enemy.prototype.run = function (dt, increments) {
         this.x = -500;
         this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
     }
-    if (this.speed === 'not') {
-        this.x = 202;
-    }
 };
 
 // Player subclass
 var Player = function(row, speed, image, x, width, height) {
     Character.call(this, row, speed, image, x, width, height);
     this.x = 202;
-    this.winner = false;
     this.crashed = false;
     this.passedRound = false;
 }; 
