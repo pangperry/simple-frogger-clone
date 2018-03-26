@@ -5,10 +5,7 @@ let round = 1;
 let gems = 0;
 let lives = 3;
 
-// main enemy and player classes. Instances of each are
-// continuously updated by the engine file
-
-// main character class with render and update methods
+// main character class 
 var Character = function(row, speed, image, x=-101, width=71, height=101) {
     this.sprite = image;
     this.y = row * 83 - 20;
@@ -22,6 +19,8 @@ Character.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// update is used along with requestAnimationFrame and delta from game
+// engine to simulate movement in Enemy subclass
 Character.prototype.update = function (dt) {
     const increments = {
         fast: 500 * dt,
@@ -34,19 +33,25 @@ Character.prototype.update = function (dt) {
         this.runaway(dt, increments) : this.run(dt, increments);
 };
 
-//enemy subclass
+// Enemy subclass
 var Enemy = function(row, speed, image, x, width, height) {
     Character.call(this, row, speed, image, x, width, height);
 };
 
 Enemy.prototype = Object.create(Character.prototype);
+
 Enemy.prototype.constructor = Enemy;
+
+// Runaway triggered by win condition at end of game
 Enemy.prototype.runaway = function (dt, speedIncrements) {
     this.x += 5;
     this.y += 400 * dt;
     this.sprite = 'images/enemy-bug-rotate-right.png';
 };
 
+// sets running speed for the enemy. Once the enemy reaches
+// end of canvas, it resets the enemy to the beginning, and 
+// also randomly assigns it to a row
 Enemy.prototype.run = function (dt, increments) {
     this.x += increments[this.speed];
     if (this.x >= ctx.canvas.width) {
@@ -58,7 +63,7 @@ Enemy.prototype.run = function (dt, increments) {
     }
 };
 
-// player subclass
+// Player subclass
 var Player = function(row, speed, image, x, width, height) {
     Character.call(this, row, speed, image, x, width, height);
     this.x = 202;
@@ -68,8 +73,14 @@ var Player = function(row, speed, image, x, width, height) {
 }; 
 
 Player.prototype = Object.create(Character.prototype);
+
 Player.prototype.constructor = Player;
+
 Player.prototype.update = function () {};
+
+// main player method, handles player movement and triggers
+// Player.prototype.wins and Player.prototype.nextRound
+// methods
 Player.prototype.handleInput = function (direction) {
     var moves = {
         left: -103,
@@ -94,6 +105,9 @@ Player.prototype.handleInput = function (direction) {
     }
 };
 
+// temporarily blocks player movement in between rounds,
+// increments round and updates stats. Also triggers board reset
+// in update (enjine.js) by settting player.passedRound to true
 Player.prototype.nextRound = function () {
     document.removeEventListener('keyup', this.keyHandler);
 
@@ -194,7 +208,9 @@ function loseGame(reset) {
     }, 1000);
 
 }
-//instantiates and sets all classes/pieces
+
+// Dynamically instantiates and sets all classes/pieces based on round level. Difficulty
+// increases with level/round
 function setPieces(level) {
     allEnemies = [];
     allItems = [];
@@ -242,7 +258,9 @@ function zeroStats() {
     round = 1;
     updateStats();
 }
-//enables restart button at end of game
+
+// enables restart buttons at at game over from crashes and end of game
+// from win
 function enablePlayAgain(reset, isLose) {
     if (isLose) {
         $('#restart').click(function() {
@@ -260,6 +278,7 @@ function enablePlayAgain(reset, isLose) {
     }
 };
 
+// uses Handlebars module to dynamically update stats in html
 function updateStats() {
     $(".stats").remove();
     var source = document.getElementById("stats-template").innerHTML;
@@ -269,12 +288,13 @@ function updateStats() {
     $('#stats').append(html);
 }
 
-$(function () {
+//initial call to updateStats once document is ready
+$(function() {
     updateStats();
 });
 
 
-// TODO: 
+// TODOs: 
     //add a game over modal with player again?
       //add game over sound
     //improve victory: winning sound + maybe some fireworks again ;)
