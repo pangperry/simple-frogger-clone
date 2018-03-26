@@ -63,7 +63,7 @@ var Engine = (function(global) {
      * game loop.
      */
     function init() {
-        enablePlayAgain(reset, 'win');
+        enablePlayAgain(reset);
         reset();
         lastTime = Date.now();
         main();
