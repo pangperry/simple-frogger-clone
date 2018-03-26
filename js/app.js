@@ -299,9 +299,11 @@ $(function() {
 
 
 // TODOs: 
-    //add a game over modal with player again?
-      //add game over sound
-    //improve victory: winning sound + maybe some fireworks again ;)
+    //cleanup code
+    //improve design: 
+        // font, font-size, placement of round, lives and gems
+        // add color to you lose modal
+        // add a you win modal 
 
     // other potential changes:
         //add a title
