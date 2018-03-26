@@ -177,8 +177,16 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-function gameEnd() {
-    $('.game-over').removeClass('hidden');
+function loseGame() {
+    var loseGame = $('#lose-sound')[0];
+    var gameOver = $('#game-over')[0];
+    loseGame.play();
+    setTimeout(function() {
+        $('.game-over').removeClass('hidden');
+        gameOver.play();
+        enablePlayAgain(reset, true);
+    }, 1000);
+
 }
 //instantiates and sets all classes/pieces
 function setPieces(level) {
@@ -222,25 +230,40 @@ function setPieces(level) {
     document.addEventListener('keyup', player.keyHandler);
 };
 
+function zeroStats() {
+    lives = 3;
+    gems = 0;
+    round = 1;
+    updateStats();
+}
 //enables restart button at end of game
-function enablePlayAgain(reset) {
-    var button = document.querySelector('.btn');
-    button.addEventListener('click', function() {
-        button.classList.add('hidden');
-        reset();
-    });
+function enablePlayAgain(reset, isLose) {
+    if (isLose) {
+        $('#restart').click(function() {
+            $('.game-over').addClass('hidden');
+            zeroStats();
+            reset();
+        });
+    } else {
+        var button = document.querySelector('.btn');
+        button.addEventListener('click', function () {
+            button.classList.add('hidden');
+            zeroStats();
+            reset();
+        });
+    }
 };
 
 function updateStats() {
     $(".stats").remove();
     var source = document.getElementById("stats-template").innerHTML;
     var template = Handlebars.compile(source);
-    var context = {round: round, gems: gems, lives: lives};
+    var context = { round: round, gems: gems, lives: lives };
     var html = template(context);
     $('#stats').append(html);
 }
 
-$(function() {
+$(function () {
     updateStats();
 });
 
