@@ -127,9 +127,15 @@ Player.prototype.render = function () {
 
 Player.prototype.roar = function () {
     var roar = document.querySelector('#roar');
+    var cheer = document.querySelector('#cheer');
     roar.volume = .4;
+    cheer.volume = .6;
     roar.currentTime = 0;
     roar.play()
+    setTimeout(function () {
+        cheer.currentTime = 0;
+        cheer.play();
+    }, 400);
 };
 
 Player.prototype.keyHandler = function(e) {
