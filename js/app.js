@@ -185,6 +185,7 @@ Player.prototype.crash = function() {
     updateStats();
 };
 
+// Item class
 var Item = function(row, image, x, width=71, height=101) { 
     this.sprite = image;
     this.y = row * 83 - 40;
@@ -197,6 +198,9 @@ Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+
+// Called by collide function in game engine. Triggers losing sounds, 
+// and makes the play again modal visible
 function loseGame(reset) {
     var loseGame = $('#lose-sound')[0];
     var gameOver = $('#game-over')[0];

@@ -18,7 +18,6 @@ var Engine = (function(global) {
     //  This function serves as the kickoff point for the game loop itself
     //  and handles properly calling the update and render methods. Uses 
     //  time delta and requestAnimationFrame for smooth animation
-     
     function main() {
         var now = Date.now(),
             dt = (now - lastTime) / 1000.0;
@@ -32,7 +31,6 @@ var Engine = (function(global) {
 
     //  This function does some initial setup, including setting the 
     //  lastTime variable that is required for the game loop.
-     
     function init() {
         enablePlayAgain(reset);
         reset();
