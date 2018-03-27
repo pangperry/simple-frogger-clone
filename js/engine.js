@@ -80,7 +80,7 @@ var Engine = (function(global) {
                 reset();
             }, 1750);
         }
-    }
+    };
 
     //checks for player-enemy and player-item collisions, and either calls collide 
     //or increments gems
@@ -102,7 +102,7 @@ var Engine = (function(global) {
                 }
             }
         });
-    }
+    };
 
     // This function initially draws the "game level", and calls
     // the renderEntities function. It is called every game tick 
@@ -152,7 +152,7 @@ var Engine = (function(global) {
     // the board entities as appropriate for the round
     function reset() {
         setPieces(round);
-    }
+    };
 
     //Loads the images we are going to need for the game
     Resources.load([

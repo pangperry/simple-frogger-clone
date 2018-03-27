@@ -156,7 +156,7 @@ Player.prototype.keyHandler = function(e) {
         40: 'down'
     };
     player.handleInput(allowedKeys[e.keyCode]);
-}
+};
 
 Player.prototype.crash = function() {
     var crash = document.querySelector("#crash");
@@ -188,7 +188,7 @@ var Item = function(row, image, x, width=71, height=101) {
     this.x = x;
     this.width = width;
     this.height = height;
-}
+};
 
 Item.prototype.render = function () {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
@@ -206,7 +206,7 @@ function loseGame(reset) {
         enablePlayAgain(reset, true);
     }, 1000);
 
-}
+};
 
 // Dynamically instantiates and sets all classes/pieces based on round level. Difficulty
 // increases with level/round
@@ -286,7 +286,7 @@ function updateStats() {
     var context = { round: round, gems: gems, lives: lives };
     var html = template(context);
     $('#stats').append(html);
-}
+};
 
 //initial call to updateStats once document is ready
 $(function() {
