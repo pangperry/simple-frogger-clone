@@ -293,15 +293,10 @@ $(function() {
     updateStats();
 });
 
-
 // TODOs: 
-    //cleanup code
-    //improve design: 
-        // font, font-size, placement of round, lives and gems
-        // add color to you lose modal
-        // add a you win modal 
-
-    // other potential changes:
-        //add a title
-        //clean up code
-        //consider converting all to es6
+  //add a score timer feature, maybe to player...
+    //start timer on first move
+    //stop timer on player.wins
+    //multply time by a factor and multiply gems by a factor and sum
+    //add the stories 
+    //add a small modal with the score for win condition
